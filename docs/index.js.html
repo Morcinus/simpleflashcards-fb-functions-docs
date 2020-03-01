@@ -5,7 +5,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>JSDoc: util/authMiddleware.js</title>
+    <title>JSDoc: index.js</title>
 
     <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -84,7 +84,7 @@
                 <div class="content" id="main-content-wrapper">
                     <header class="page-title">
                         <p>Source</p>
-                        <h1>util/authMiddleware.js</h1>
+                        <h1>index.js</h1>
                     </header>
                     
                     
@@ -94,57 +94,100 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>const { admin, db } = require("./admin");
+            <pre class="prettyprint source linenums"><code>const functions = require("firebase-functions");
+
+// Express
+const express = require("express");
+const app = express();
+
+const authMiddleware = require("./util/authMiddleware");
+
+// Cors
+const cors = require("cors")({ origin: true });
+app.use(cors);
+app.options("*", cors);
+
+const { signup, login, resetPassword, getUserPersonalData, setUserPersonalData, getUserDataByUsername, getUserData } = require("./functions/user");
+
+const { createDeck, updateDeck, deleteDeck, pinDeck, unpinDeck, getUserDecks, getPinnedDecks, getDeck, uploadDeckImage } = require("./functions/deck");
+
+const {
+  createCollection,
+  updateCollection,
+  addDeckToCollection,
+  deleteCollection,
+  pinCollection,
+  unpinCollection,
+  getUserCollections,
+  getUserCollectionsWithDeckInfo,
+  getPinnedCollections,
+  getCollection
+} = require("./functions/collection");
+
+const { setDeckCardsProgress, getCardsToReview, getDeckUnknownCards, getCardsToLearnAndReview } = require("./functions/deckCards");
+
+const { getColCardsToReview, getColUnknownCards, getColCardsToLearnAndReview, setColCardsProgress } = require("./functions/collectionCards");
+
+// User routes
+app.post("/signup", signup);
+app.post("/login", login);
+app.post("/resetPassword", authMiddleware, resetPassword);
+app.get("/getUserPersonalData", authMiddleware, getUserPersonalData);
+app.post("/setUserPersonalData", authMiddleware, setUserPersonalData);
+app.get("/getUserDataByUsername/:username", getUserDataByUsername);
+app.get("/getUserData", authMiddleware, getUserData);
+
+// DECK ROUTES
+// Deck Editing
+app.post("/createDeck", authMiddleware, createDeck);
+app.post("/updateDeck/:deckId", authMiddleware, updateDeck);
+app.post("/deleteDeck/:deckId", authMiddleware, deleteDeck);
+app.post("/uploadDeckImage/:deckId", authMiddleware, uploadDeckImage);
+
+// Deck Pinning
+app.post("/pinDeck/:deckId", authMiddleware, pinDeck);
+app.post("/unpinDeck/:deckId", authMiddleware, unpinDeck);
+
+// Deck UI
+app.get("/getUserDecks", authMiddleware, getUserDecks);
+app.get("/getPinnedDecks", authMiddleware, getPinnedDecks);
+app.get("/getDeck/:deckId", authMiddleware, getDeck);
+
+// COLLECTION ROUTES
+// Collection Editing
+app.post("/createCollection", authMiddleware, createCollection);
+app.post("/updateCollection/:colId", authMiddleware, updateCollection);
+app.post("/addDeckToCollection/:colId/:deckId", authMiddleware, addDeckToCollection);
+app.post("/deleteCollection/:colId", authMiddleware, deleteCollection);
+
+// Collection Pinning
+app.post("/pinCollection/:colId", authMiddleware, pinCollection);
+app.post("/unpinCollection/:colId", authMiddleware, unpinCollection);
+
+// Collection UI
+app.get("/getUserCollections", authMiddleware, getUserCollections);
+app.get("/getUserCollectionsWithDeckInfo/:deckId", authMiddleware, getUserCollectionsWithDeckInfo);
+app.get("/getPinnedCollections", authMiddleware, getPinnedCollections);
+app.get("/getCollection/:colId", authMiddleware, getCollection);
+
+// Deck card routes
+app.get("/getCardsToReview/:deckId", authMiddleware, getCardsToReview);
+app.get("/getDeckUnknownCards/:deckId", authMiddleware, getDeckUnknownCards);
+app.get("/getCardsToLearnAndReview/:deckId", authMiddleware, getCardsToLearnAndReview);
+app.post("/setDeckCardsProgress/:deckId", authMiddleware, setDeckCardsProgress);
+
+// Collection Card routes
+app.get("/getColCardsToReview/:colId", authMiddleware, getColCardsToReview);
+app.get("/getColUnknownCards/:colId", authMiddleware, getColUnknownCards);
+app.get("/getColCardsToLearnAndReview/:colId", authMiddleware, getColCardsToLearnAndReview);
+app.post("/setColCardsProgress", authMiddleware, setColCardsProgress);
 
 /**
- * @module authMiddleware
- * @category util
- * @description Slouží k ověřování uživatele pomocí idTokenu.
- * @param {Object} req - HTTP požadavek.
- * @param {Object} res - HTTP odpověď na požadavek.
- * @param {function} next - Callback funkce.
- *
- * @returns {string} Pokud nastala chyba, vrací errový kód.
+ * @module index
+ * @category Ostatní
+ * @description Zde se z jednotlivých funkcí vytvoří API.
  */
-
-// Zdroj https://youtu.be/Fz1f7NLvcu4
-module.exports = (req, res, next) => {
-  // Přiřazení ID tokenu
-  let idToken;
-  if (req.headers.authorization &amp;&amp; req.headers.authorization.startsWith("Bearer ")) {
-    idToken = req.headers.authorization.split("Bearer ")[1];
-  } else {
-    return res.status(403).json({ errorCode: "user/unauthorized" });
-  }
-
-  // Ověření ID Tokenu
-  admin
-    .auth()
-    .verifyIdToken(idToken)
-    .then(decodedToken => {
-      req.user = decodedToken;
-
-      // Najde dokument s daty uživatele v databázi
-      return db
-        .collection("users")
-        .doc(req.user.uid)
-        .get();
-    })
-    .then(doc => {
-      // Pokud existuje uživatel v databázi
-      if (doc.exists) {
-        // Přiřadí uživatelské jméno do req.user.username
-        req.user.username = doc.data().username;
-        return next();
-      } else {
-        return res.status(403).json({ errorCode: "user/user-not-found" });
-      }
-    })
-    .catch(error => {
-      console.error("Error while verifying token ", error);
-      return res.status(403).json({ errorCode: error.code });
-    });
-};
+exports.api = functions.region("europe-west1").https.onRequest(app);
 </code></pre>
         </article>
     </section>

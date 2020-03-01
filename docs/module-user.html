@@ -27,7 +27,7 @@
                 <div class="navbar-brand">
                     
                      
-                        <h1 class="navbar-item">Simple Flashcards Cloud Functions Dokumentace</h1>
+                        <h1 class="navbar-item">Simple Flashcards Cloud Functions dokumentace</h1>
                     
                     <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
                         <span aria-hidden="true"></span>
@@ -40,14 +40,26 @@
                     <div class="navbar-end">
                     
                         <div class="navbar-item">
+                            <a href="https://simpleflashcards-4aea0.firebaseapp.com" target="_blank">
+                                Aplikace
+                            </a>
+                        </div>
+                    
+                        <div class="navbar-item">
                             <a href="https://github.com/Morcinus/SimpleFlashCards" target="_blank">
                                 Github
                             </a>
                         </div>
                     
                         <div class="navbar-item">
-                            <a href="https://simpleflashcards-4aea0.firebaseapp.com" target="_blank">
-                                Aplikace
+                            <a href="https://morcinus.github.io/simpleflashcards-client-docs/" target="_blank">
+                                Simple Flashcards Client dokumentace
+                            </a>
+                        </div>
+                    
+                        <div class="navbar-item">
+                            <a href="https://morcinus.github.io/simpleflashcards-user-docs/" target="_blank">
+                                Uživatelské dukumentace
                             </a>
                         </div>
                     
@@ -62,7 +74,7 @@
             <div class="column is-3" id="sidebarNav">
                 <div class="sidebar">
                     <nav>
-                        <h2><a href="index.html">Home</a></h2><div class="category"></div><div class="category"><h2>Funkce</h2><h3>Modules</h3><ul><li><a href="module-collection.html">collection</a></li><li><a href="module-collectionCards.html">collectionCards</a></li><li><a href="module-deck.html">deck</a></li><li><a href="module-deckCards.html">deckCards</a></li><li><a href="module-functions.html">functions</a></li><li><a href="module-user.html">user</a></li></ul></div><div class="category"><h2>util</h2><h3>Modules</h3><ul><li><a href="module-admin.html">admin</a></li><li><a href="module-authMiddleware.html">authMiddleware</a></li></ul></div>
+                        <h2><a href="index.html">Home</a></h2><div class="category"></div><div class="category"><h2>Funkce</h2><h3>Modules</h3><ul><li><a href="module-collection.html">collection</a></li><li><a href="module-collectionCards.html">collectionCards</a></li><li><a href="module-deck.html">deck</a></li><li><a href="module-deckCards.html">deckCards</a></li><li><a href="module-functions.html">functions</a></li><li><a href="module-user.html">user</a></li></ul></div><div class="category"><h2>Ostatní</h2><h3>Modules</h3><ul><li><a href="module-index.html">index</a></li></ul></div><div class="category"><h2>util</h2><h3>Modules</h3><ul><li><a href="module-admin.html">admin</a></li><li><a href="module-authMiddleware.html">authMiddleware</a></li></ul></div>
                     </nav>
                 </div>
             </div>
@@ -211,7 +223,7 @@
         
         <span class="code-name">
             
-                getUserData<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Object}</span>
+                getUserData<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Object|string}</span>
             
         </span>
     </h4>
@@ -403,13 +415,16 @@
 
 <div class="columns">
     
-    <div class='param-desc column is-7'><p>userData - data o uživateli</p></div>
+    <div class='param-desc column is-7'><p>Vrací data o uživateli. Pokud nastala chyba, vrací errorový kód.</p></div>
     
     
     <div class='column is-5 has-text-left'>
         <label>Type: </label>
         
 <span class="param-type">Object</span>
+|
+
+<span class="param-type">string</span>
 
 
     </div>
@@ -440,7 +455,7 @@
         
         <span class="code-name">
             
-                getUserDataByUsername<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Object}</span>
+                getUserDataByUsername<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Object|string}</span>
             
         </span>
     </h4>
@@ -527,7 +542,7 @@
 
   
 
-  <td class="description last"><p>Uživatelské jméno</p></td>
+  <td class="description last"><p>Uživatelské jméno.</p></td>
 </tr>
 
   
@@ -632,13 +647,16 @@
 
 <div class="columns">
     
-    <div class='param-desc column is-7'><p>userData - data o uživateli</p></div>
+    <div class='param-desc column is-7'><p>Vrací data o uživateli.  Pokud nastala chyba, vrací errorový kód.</p></div>
     
     
     <div class='column is-5 has-text-left'>
         <label>Type: </label>
         
 <span class="param-type">Object</span>
+|
+
+<span class="param-type">string</span>
 
 
     </div>
@@ -669,7 +687,7 @@
         
         <span class="code-name">
             
-                getUserPersonalData<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Object}</span>
+                getUserPersonalData<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Object|string}</span>
             
         </span>
     </h4>
@@ -861,13 +879,16 @@
 
 <div class="columns">
     
-    <div class='param-desc column is-7'><p>userData - data o uživateli</p></div>
+    <div class='param-desc column is-7'><p>Vrací data o uživateli. Pokud nastala chyba, vrací errorový kód.</p></div>
     
     
     <div class='column is-5 has-text-left'>
         <label>Type: </label>
         
 <span class="param-type">Object</span>
+|
+
+<span class="param-type">string</span>
 
 
     </div>
@@ -1113,7 +1134,7 @@
 
 <div class="columns">
     
-    <div class='param-desc column is-7'><p>idToken</p></div>
+    <div class='param-desc column is-7'><p>Vrací idToken. Pokud nastala chyba, vrací errorový kód.</p></div>
     
     
     <div class='column is-5 has-text-left'>
@@ -1342,7 +1363,7 @@
 
 <div class="columns">
     
-    <div class='param-desc column is-7'><p>successCode</p></div>
+    <div class='param-desc column is-7'><p>Pokud funkce proběhla úspěšně, vrací &quot;successCode&quot;. Pokud nastala chyba, vrací errorový kód (&quot;errorCode&quot;).</p></div>
     
     
     <div class='column is-5 has-text-left'>
@@ -1615,7 +1636,7 @@
 
 <div class="columns">
     
-    <div class='param-desc column is-7'><p>successCode</p></div>
+    <div class='param-desc column is-7'><p>Pokud funkce proběhla úspěšně, vrací &quot;successCode&quot;. Pokud nastala chyba, vrací errorový kód (&quot;errorCode&quot;).</p></div>
     
     
     <div class='column is-5 has-text-left'>
@@ -1890,7 +1911,7 @@
 
 <div class="columns">
     
-    <div class='param-desc column is-7'><p>idToken</p></div>
+    <div class='param-desc column is-7'><p>Vrací idToken. Pokud nastala chyba, vrací errorový kód.</p></div>
     
     
     <div class='column is-5 has-text-left'>
@@ -2525,7 +2546,7 @@
 
   
 
-  <td class="description last"><p>Registrační data uživatele</p></td>
+  <td class="description last"><p>Registrační data uživatele.</p></td>
 </tr>
 
 
@@ -2647,7 +2668,7 @@
 
 <footer class="footer">
     <div class="content has-text-centered">
-        <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Thu Feb 27 2020 14:55:52 GMT+0100 (GMT+01:00)</p>
+        <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Sun Mar 01 2020 14:24:58 GMT+0100 (GMT+01:00)</p>
         <p class="sidebar-created-by">
             <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
             <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
