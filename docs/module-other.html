@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <link rel="shortcut icon" href="favicon.ico" />
-    <title>Simple Flashcards Doc: util/authMiddleware.js</title>
+    <title>Simple Flashcards Doc: other</title>
 
     <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -116,50 +116,54 @@
         <div class="column is-9-desktop">
           <div class="content" id="main-content-wrapper">
             <header class="page-title">
-              <p>Source</p>
-              <h1>util/authMiddleware.js</h1>
+              <p>Module</p>
+              <h1>other</h1>
             </header>
 
             <section>
+              <header></header>
+
               <article>
-                <pre class="prettyprint source linenums"><code>const { admin, db } = require("./admin");
+                <div class="container-overview">
+                  <div class="description"><p>Zde jsou uloženy konstanty.</p></div>
 
-/**
- * @module authMiddleware
- * @category util
- * @description Slouží k ověřování uživatele pomocí idTokenu.
- * @param {Object} req - HTTP požadavek.
- * @param {Object} res - HTTP odpověď na požadavek.
- * @param {function} next - Callback funkce.
- *
- * @returns {string} Pokud nastala chyba, vrací errový kód.
- */
+                  <dl class="details">
+                    <p class="tag-source">
+                      <a href="util_other.js.html" class="button">View Source</a>
+                      <span> <a href="util_other.js.html">util/other.js</a>, <a href="util_other.js.html#line1">line 1</a> </span>
+                    </p>
+                  </dl>
+                </div>
 
-// Zdroj https://youtu.be/Fz1f7NLvcu4
-module.exports = (req, res, next) => {
-  // Přiřazení ID tokenu
-  let idToken;
-  if (req.headers.authorization &amp;&amp; req.headers.authorization.startsWith("Bearer ")) {
-    idToken = req.headers.authorization.split("Bearer ")[1];
-  } else {
-    return res.status(403).json({ errorCode: "user/unauthorized" });
-  }
+                <div class="vertical-section">
+                  <h3 class="title"><span>Members</span></h3>
+                  <div class="members">
+                    <div class="member">
+                      <h4 class="name" id="~DECK_COL_NAME_REGEX_STRING">
+                        <a class="href-link" href="#~DECK_COL_NAME_REGEX_STRING">#</a>
 
-  // Ověření ID Tokenu
-  admin
-    .auth()
-    .verifyIdToken(idToken)
-    .then(decodedToken => {
-      req.user = decodedToken;
+                        <span class="tag">inner</span>
 
-      return next();
-    })
-    .catch(error => {
-      console.error("Error while verifying token ", error);
-      return res.status(403).json({ errorCode: error.code });
-    });
-};
-</code></pre>
+                        <span class="tag">constant</span>
+
+                        <span class="code-name">
+                          DECK_COL_NAME_REGEX_STRING
+                        </span>
+                      </h4>
+
+                      <div class="description">
+                        <p>Regex pro názvy balíčků a kolekcí.</p>
+                      </div>
+
+                      <dl class="details">
+                        <p class="tag-source">
+                          <a href="util_other.js.html" class="button">View Source</a>
+                          <span> <a href="util_other.js.html">util/other.js</a>, <a href="util_other.js.html#line7">line 7</a> </span>
+                        </p>
+                      </dl>
+                    </div>
+                  </div>
+                </div>
               </article>
             </section>
           </div>
