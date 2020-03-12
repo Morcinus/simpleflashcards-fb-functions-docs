@@ -118,12 +118,12 @@
             <header class="page-title">
               <h1>Home</h1>
             </header>
-        
+
             <p>
-              Tato dokumentace je zaměřena na všechny Cloud Functions funkce, tedy na funkce, které manipulují s daty v Cloud Firestore databázi na základě požadavků
-              webové aplikace.
+              Tato dokumentace je zaměřena na Cloud Functions, tedy na funkce, které tvoří API projektu a manipulují s daty v Cloud Firestore databázi na
+              základě požadavků webové aplikace. Funkce běží na serverech služby <a href="https://firebase.google.com/">Firebase</a>.
             </p>
-        
+
             <h2>Rozdělení Projektu Simpleflashcards:</h2>
             <p>Projekt je rozdělen do dvou částí:</p>
             <ul>
@@ -134,14 +134,45 @@
               Tato dokumentace je zaměřena na Cloud Functions. Dokumentaci pro webovou aplikaci můžete najít
               <a href="https://morcinus.github.io/simpleflashcards-client-docs/">zde</a>.
             </p>
-        
+
+            <h2>Struktura dokumentace:</h2>
+            <h3>Funkce</h3>
+            <ul>
+              <li>
+                <a href="module-collection.html">collection</a> - Funkce, které se starají o vytváření, upravování, připínání a odepínání kolekcí a získávání
+                dat kolekcí.
+              </li>
+              <li>
+                <a href="module-collectionCards.html">collectionCards</a> - Funkce, které získávají z databáze karty na učení z dané kolekce a ukládají pokrok
+                uživatele.
+              </li>
+              <li>
+                <a href="module-deck.html">deck</a> - Funkce, které se starají o vytváření, upravování, připínání a odepínání balíčků a získávání dat balíčků.
+              </li>
+              <li>
+                <a href="module-deckCards.html">deckCards</a> - Funkce, které získávají z databáze karty na učení z daného balíčku a ukládají pokrok uživatele.
+              </li>
+              <li><a href="module-functions.html">functions</a> - Funkce používané dalšími moduly.</li>
+              <li><a href="module-user.html">user</a> - Funkce spravující data uživatelů.</li>
+            </ul>
+            <h3>Ostatní</h3>
+            <ul>
+              <li><a href="module-index.html">index</a> - Javascript modul, v němž se z funkcí vytvoří API.</li>
+            </ul>
+            <h3>util</h3>
+            <ul>
+              <li><a href="module-admin.html">admin</a> - Javascript modul pro spuštění Firebase Admin SDK.</li>
+              <li><a href="module-authMiddleware.html">authMiddleware</a> - Funkce, která slouží k ověření uživatele.</li>
+              <li><a href="module-other.html">other</a> - Konstanty používané ve funkcích.</li>
+            </ul>
+
             <h2>Databáze</h2>
             <p>
-              Tento projekt využívá jako databázi službu <a href="https://firebase.google.com/docs/firestore">Cloud Firestore</a>. Jedná se o NoSQL databázi. Projekt
-              využívá také službu <a href="https://firebase.google.com/docs/functions">Cloud Functions</a>. Tato služba umožňuje vytvořit API a naprogramovat funce,
-              díky kterým se dá do databáze přistupovat. V této dokumentaci je zaznamenána struktura databáze a popis jednotlivých funkcí.
+              Tento projekt využívá jako databázi službu <a href="https://firebase.google.com/docs/firestore">Cloud Firestore</a>. Jedná se o NoSQL databázi.
+              Projekt využívá také službu <a href="https://firebase.google.com/docs/functions">Cloud Functions</a>. Tato služba umožňuje vytvořit API a
+              naprogramovat funkce, díky kterým se dá do databáze přistupovat. V této dokumentaci je zaznamenána struktura databáze a popis jednotlivých funkcí.
             </p>
-        
+
             <h2>Struktura databáze</h2>
             <p>Databáze je rozdělena do 3 částí:</p>
             <ul>
@@ -149,47 +180,48 @@
               <li>decks - Dokumenty jednotlivých balíčků.</li>
               <li>users - Dokumenty uživatelů a dokumenty se zaznamenanými pokroky u daných balíčků.</li>
             </ul>
-        
+
             <h3>collections</h3>
             <p>
-              V této části databáze jsou uloženy všechny kolekce. Každý dokument má název podle ID dané kolekce. Tyto ID jsou automaticky generovány funkcemi z Cloud
-              Firestore. V dokumentech jsou uloženy následující informace:
+              V této části databáze jsou uloženy všechny kolekce. Každý dokument obsahuje data jedné kolekce a má název podle ID dané kolekce. Tyto ID jsou
+              automaticky generovány funkcemi z Cloud Firestore. V dokumentech jsou uloženy následující informace:
             </p>
-        
+
             <ul>
-              <li>[string] colName - Název kolekce, který uživatel zadal.</li>
-              <li>[string] colDescription - Popis dané kolekce, který uživatel vytvořil.</li>
+              <li>[string] colName - Název kolekce.</li>
+              <li>[string] colDescription - Popis kolekce, který uživatel zadal. Pokud uživatel nezadal popis kolekce, má hodnotu null.</li>
               <li>[string] creatorId - ID uživatele, který kolekci vytvořil.</li>
-              <li>[Array&lt;string&gt;] deckArray - Pole, které obsahuje seznam ID balíčků, které jsou obsaženy v dané kolekci.</li>
+              <li>[boolean] private - Informace, která udává, jestli je kolekce veřejná nebo soukromá.</li>
+              <li>[Array&lt;string&gt;] deckArray - Pole, které obsahuje ID balíčků, které jsou obsaženy v dané kolekci.</li>
             </ul>
-        
+
             <h3>decks</h3>
             <p>
-              V této části databáze jsou uloženy všechny balíčky. Každý dokument má název podle ID daného balíčku. Tyto ID jsou automaticky generovány funkcemi z Cloud
-              Firestore. V dokumentech jsou uloženy následující informace:
+              V této části databáze jsou uloženy všechny balíčky. Každý dokument obsahuje data jednoho balíčku a má název podle ID daného balíčku. Tyto ID jsou
+              automaticky generovány funkcemi z Cloud Firestore. V dokumentech jsou uloženy následující informace:
             </p>
-        
+
             <ul>
-              <li>[string] deckName - Název balíčku, který uživatel zadal.</li>
-              <li>[string] deckDescription - Popis daného balíčku, který uživatel vytvořil.</li>
+              <li>[string] deckName - Název balíčku.</li>
+              <li>[string] deckDescription - Popis daného balíčku, který uživatel zadal. Pokud uživatel nezadal popis balíčku, má hodnotu null.</li>
               <li>[string] deckImage - Adresa obrázku daného balíčku. Pokud uživatel žádný balíček nenahrál, je zde zapsána adresa pro výchozí obrázek.</li>
               <li>[string] creatorId - ID uživatele, který balíček vytvořil.</li>
               <li>[boolean] private - Informace, která udává, jestli je balíček veřejný nebo soukromý.</li>
-              <li>[Array&lt;Object&gt;] cardArray - Pole, které obsahuje objekty jednotlivých karet. Ty obsahují následující informace:</li>
+              <li>[Array&lt;Object&gt;] cardArray - Pole, které obsahuje objekty jednotlivých karet balíčku. Každý objekt obsahuje následující informace:</li>
               <ul>
                 <li>[string] cardId - ID dané kartičky, které bylo vygenerováno funkcí <a href="module-deck.html#~newId">newId</a>.</li>
                 <li>[string] body1 - Text přední strany kartičky.</li>
                 <li>[string] body2 - Text zadní strany kartičky.</li>
               </ul>
             </ul>
-        
+
             <h3>users</h3>
             <p>
-              V této části jsou uloženy všechny informace o uživatelích a jejich pokroku v učení. Každý dokument má název podle ID daného uživatele. ID jsou automaticky
-              generovány službou <a href="https://firebase.google.com/docs/auth">Firebase Authentication</a> při registraci uživatele. V jednotlivých dokumentech této
-              části databáze jsou pak uloženy následující informace:
+              V této části jsou uloženy všechny informace o uživatelích a jejich pokroku v učení. Každý dokument obsahuje data jednoho uživatele a má název
+              podle ID daného uživatele. ID jsou automaticky generovány službou <a href="https://firebase.google.com/docs/auth">Firebase Authentication</a> při
+              registraci uživatele. V jednotlivých dokumentech této části databáze jsou pak uloženy následující informace:
             </p>
-        
+
             <ul>
               <li>[string] username - Uživatelské jméno.</li>
               <li>[string] bio - Popis uživatelského profilu.</li>
@@ -199,56 +231,67 @@
               <li>[Array&lt;string&gt;] createdCollections - Pole, které obsahuje ID všech kolekcí, které uživatel vytvořil.</li>
               <li>[Array&lt;string&gt;] pinnedCollections - Pole, které obsahuje ID všech kolekcí, které uživatel připnul.</li>
             </ul>
-        
+
             <h4>deckProgress</h4>
             <p>
-              Ke každému dokumentu v této části databáze je přiřazena skupina dokumentů, která se nazývá deckProgress. Tato skupina obsahuje dokumenty, které mají název
-              podle ID balíčků, které se uživatel učil. V každém tomto dokumentu je pak seznam kartiček, které se uživatel učil společně s zaznamenaným pokrokem u každé
-              karty. V každém dokumentu jsou uloženy následující informace.
+              Ke každému souboru v této části databáze (users) je přiřazena skupina dokumentů, která se nazývá deckProgress. Dokumenty těchto skupin jsou určeny
+              k uchovávání pokroku uživatele u balíčků a mají název podle ID daného balíčku. V každém dokumentu je pak uložen seznam karet balíčku, které se
+              uživatel učil, společně se zaznamenaným pokrokem u každé karty. V každém dokumentu jsou tedy uloženy následující informace:
             </p>
             <ul>
               <li>
                 [string] deckId - ID daného balíčku (Je identické s názvem dokumentu. V dokumentu je zapsáno, aby bylo možné dokumenty hromadně prohledávat v
                 databázi.).
               </li>
-              <li>[Array&lt;Object&gt;] cardArray - Pole, které obsahuje objekty karet, které se uživatel učil. Ty obsahují následující informace:</li>
+              <li>[Array&lt;Object&gt;] cardArray - Pole, které obsahuje objekty karet balíčku, které se uživatel učil. Ty obsahují následující informace:</li>
               <ul>
                 <li>[string] cardId - ID dané kartičky.</li>
                 <li>[number] understandingLevel - Číslo, které udává, jak dobře uživatel rozumí dané kartičce.</li>
               </ul>
             </ul>
-        
+
             <h2>Uživatelské účty</h2>
             <h3>Registrace</h3>
             <p>
-              Když se uživatel zaregistruje do Aplikace, je zaregistrován do služby <a href="https://firebase.google.com/docs/auth">Firebase Authentication</a>. Zde
-              jsou pak uloženy např. přihlašovací údaje uživatele (email a heslo) nebo ID uživatele. Zároveň je při registraci vytvořen dokument v databázi v části
-              users. V tomto dokumentu se pak ukládají ostatní informace o uživateli (viz výše).
+              Když se uživatel zaregistruje do aplikace, je zaregistrován do služby <a href="https://firebase.google.com/docs/auth">Firebase Authentication</a>.
+              Zde jsou pak uloženy např. přihlašovací údaje uživatele (email a heslo) nebo ID uživatele. Zároveň je při registraci vytvořen dokument v databázi
+              v části users. V tomto dokumentu se pak ukládají ostatní informace o uživateli (viz výše).
             </p>
             <h3>Přihlašování a odhlašování</h3>
             <p>
-              Přihlášení uživatel probíhá takto: Klient zazádá o přihlášení. Cloud funkce získá ze služby
-              <a href="https://firebase.google.com/docs/auth">Firebase Authentication</a> idToken uživatele a ten pak odešle zpět klientovi. Tam se pak idToken uloží do
-              localStorage a je přidán do headeru dalších požadavků na server.
+              Přihlášení uživatele probíhá takto: Klient zažádá o přihlášení. Cloud funkce získá ze služby
+              <a href="https://firebase.google.com/docs/auth">Firebase Authentication</a> idToken uživatele a ten pak odešle zpět klientovi. Tam se pak idToken
+              uloží do localStorage a je přidán do headeru dalších požadavků na server. Při zpracovávání těchto požadavků se pak vždy ověří platnost daného
+              idTokenu. To zajišťuje funkce <a href="module-authMiddleware.html">authMiddleware</a>.
             </p>
-        
+
             <p>Při odhlášení uživatele je idToken odstraněn z localStorage klienta a z headeru požadavků.</p>
-        
+
+            <h2>Instalace a úprava funkcí</h2>
+            <p>
+              Pro užití funkcí pro vlastní projekt je třeba vytvořit nový Firebase projekt (více
+              <a href="https://firebase.google.com/docs/functions/get-started">zde</a>).
+            </p>
+            <p>
+              Po vytvoření projektu příkazem <code>firebase init functions</code> stačí do adresáře projektu přidat složku
+              <a href="https://github.com/Morcinus/SimpleFlashCards/tree/master/firebase-functions">functions</a> a v této složce pak spustit příkaz
+              <code>npm install</code>. Po případné úpravě kódu daných funkcí je třeba soubory nahrát na server příkazem <code>firebase deploy</code>.
+            </p>
+
             <h2>Použité knihovny:</h2>
             <ul>
-              <li><a href="https://www.npmjs.com/package/busboy">busboy</li>
-              <li><a href="https://www.npmjs.com/package/cors">cors</li>
-              <li><a href="https://www.npmjs.com/package/express">express</li>
-              <li><a href="https://www.npmjs.com/package/firebase">firebase</li>
-              <li><a href="https://www.npmjs.com/package/firebase-admin">firebase-admin</li>
-              <li><a href="https://www.npmjs.com/package/firebase-functions">firebase-functions</li>
-              <li><a href="https://www.npmjs.com/package/better-docs">better-docs</li>
-              <li><a href="https://www.npmjs.com/package/firebase-functions-test">firebase-functions-test</li>
-              <li><a href="https://www.npmjs.com/package/jsdoc">jsdoc</li>
+              <li><a href="https://www.npmjs.com/package/busboy">busboy</a></li>
+              <li><a href="https://www.npmjs.com/package/cors">cors</a></li>
+              <li><a href="https://www.npmjs.com/package/express">express</a></li>
+              <li><a href="https://www.npmjs.com/package/firebase">firebase</a></li>
+              <li><a href="https://www.npmjs.com/package/firebase-admin">firebase-admin</a></li>
+              <li><a href="https://www.npmjs.com/package/firebase-functions">firebase-functions</a></li>
+              <li><a href="https://www.npmjs.com/package/better-docs">better-docs</a></li>
+              <li><a href="https://www.npmjs.com/package/firebase-functions-test">firebase-functions-test</a></li>
+              <li><a href="https://www.npmjs.com/package/jsdoc">jsdoc</a></li>
             </ul>
           </div>
         </div>
-        
       </div>
     </div>
 
